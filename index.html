@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="IPTV Verifier">
+<meta name="theme-color" content="#090d16">
+<title>Vérification comptes IPTV</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #090d16;
+    --panel: #111827;
+    --panel-card: #1f293d;
+    --border: #2e3a52;
+    --border-focus: #3b82f6;
+    
+    --text-main: #f3f4f6;
+    --text-muted: #9ca3af;
+    
+    --accent-blue: #3b82f6;
+    --accent-blue-hover: #2563eb;
+    --accent-cyan: #06b6d4;
+    
+    --green-bg: rgba(16, 185, 129, 0.15);
+    --green-text: #34d399;
+    --red-bg: rgba(239, 68, 68, 0.15);
+    --red-text: #f87171;
+    --amber-bg: rgba(245, 158, 11, 0.15);
+    --amber-text: #fbbf24;
+    
+    --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+  }
+
+  * { box-sizing: border-box; }
+  
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text-main);
+    font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+    padding: 20px;
+    padding-bottom: 100px;
+    min-height: 100vh;
+    background-image: 
+      radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.08) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(6, 182, 212, 0.05) 0px, transparent 50%);
+    overflow-x: hidden;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  input, textarea, select { -webkit-user-select: text; user-select: text; }
+
+  .wrap { 
+    max-width: 1050px; 
+    margin: 0 auto; 
+  }
+
+  .header-area { margin-bottom: 20px; }
+
+  h1 {
+    font-size: clamp(1.5rem, 5vw, 1.75rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin: 0 0 8px;
+    background: linear-gradient(135deg, #ffffff 0%, #9ca3af 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .sub {
+    color: var(--text-muted);
+    font-size: clamp(0.8rem, 2.5vw, 0.92rem);
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  .sub code {
+    background: rgba(59, 130, 246, 0.15);
+    color: #60a5fa;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85em;
+  }
+
+  .input-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: var(--shadow);
+  }
+
+  textarea {
+    width: 100%;
+    min-height: 120px;
+    background: #0d1321;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-main);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    padding: 12px;
+    resize: vertical;
+    outline: none;
+    transition: all .2s ease;
+    -webkit-appearance: none;
+    -webkit-border-radius: 8px;
+  }
+  textarea:focus { 
+    border-color: var(--border-focus); 
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+  }
+  textarea::placeholder { color: #4b5563; }
+
+  .filter-box {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .filter-box label {
+    font-size: 0.75rem;
+    color: var(--accent-cyan);
+    font-weight: 600;
+  }
+
+  .filter-box input[type="text"] {
+    width: 100%;
+    background: #0d1321;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-main);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.8rem;
+    padding: 10px 12px;
+    outline: none;
+    -webkit-appearance: none;
+    -webkit-border-radius: 8px;
+  }
+  .filter-box input[type="text"]:focus {
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+  }
+
+  .row { 
+    display: flex; 
+    gap: 8px; 
+    align-items: stretch; 
+    margin-top: 14px; 
+    flex-wrap: wrap; 
+  }
+
+  button {
+    background: var(--accent-blue);
+    color: #ffffff;
+    border: none;
+    font-weight: 600;
+    font-size: 0.8rem;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all .15s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    -webkit-appearance: none;
+    -webkit-border-radius: 8px;
+    flex: 1;
+    min-width: 100px;
+  }
+  button:hover { 
+    background: var(--accent-blue-hover); 
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  }
+  button:active { transform: translateY(0); }
+  button:disabled { opacity: .5; cursor: not-allowed; transform: none; box-shadow: none; }
+
+  button.secondary {
+    background: var(--panel-card);
+    color: var(--text-main);
+    border: 1px solid var(--border);
+  }
+  button.secondary:hover { 
+    background: #28354d; 
+    border-color: #4b5563;
+    box-shadow: none;
+  }
+
+  .count { 
+    color: var(--text-muted); 
+    font-size: 0.75rem; 
+    font-weight: 500;
+    padding: 10px 0;
+    flex: 1;
+  }
+
+  .controls-group {
+    margin-top: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: #0d1321;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+
+  .timeout-field, .proxy-field {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  .timeout-field input[type="number"] {
+    width: 50px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-main);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    padding: 6px 4px;
+    text-align: center;
+    outline: none;
+    -webkit-appearance: none;
+  }
+
+  .proxy-field input[type="checkbox"] {
+    accent-color: var(--accent-blue);
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+  }
+
+  .proxy-select {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-main);
+    font-size: 0.75rem;
+    padding: 6px 8px;
+    outline: none;
+    cursor: pointer;
+    -webkit-appearance: none;
+    flex: 1;
+  }
+
+  .note {
+    margin-top: 12px;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+    padding: 10px 12px;
+    background: rgba(245, 158, 11, 0.08);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+    border-radius: 8px;
+  }
+  .note code { color: var(--amber-text); }
+
+  .table-container {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-top: 20px;
+    box-shadow: var(--shadow);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.75rem;
+    text-align: left;
+  }
+
+  thead th {
+    background: #0d1321;
+    font-weight: 600;
+    color: var(--text-muted);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 10px 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  tbody td {
+    padding: 10px 8px;
+    border-bottom: 1px solid var(--border);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    vertical-align: middle;
+    word-break: break-word;
+  }
+
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover { background: rgba(255, 255, 255, 0.02); }
+
+  .server { color: var(--text-main); word-break: break-all; font-weight: 500; }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-size: 0.65rem;
+    font-weight: 600;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    white-space: nowrap;
+  }
+  .badge.active { background: var(--green-bg); color: var(--green-text); border: 1px solid rgba(16, 185, 129, 0.3); }
+  .badge.expired { background: var(--red-bg); color: var(--red-text); border: 1px solid rgba(239, 68, 68, 0.3); }
+  .badge.other { background: rgba(156, 163, 175, 0.15); color: var(--text-muted); }
+  .badge.loading { background: var(--amber-bg); color: var(--amber-text); }
+  .badge.error { background: var(--red-bg); color: var(--red-text); border: 1px solid rgba(239, 68, 68, 0.3); }
+
+  .exp { color: var(--text-main); }
+  .exp.soon { color: var(--amber-text); font-weight: 600; }
+  .exp.past { color: var(--red-text); }
+
+  .err-msg { color: var(--red-text); font-size: 0.65rem; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+  .cat-tag {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 0.65rem;
+    font-weight: 500;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    margin-right: 3px;
+    margin-bottom: 2px;
+    background: rgba(59, 130, 246, 0.12);
+    color: #60a5fa;
+    border: 1px solid rgba(59, 130, 246, 0.25);
+  }
+
+  .cat-container {
+    max-height: 60px;
+    overflow-y: auto;
+    padding-right: 4px;
+  }
+
+  #empty { 
+    display: none; 
+    color: var(--text-muted); 
+    font-size: 0.85rem; 
+    margin-top: 20px; 
+    text-align: center; 
+    padding: 30px 15px; 
+  }
+
+  @media (max-width: 480px) {
+    body { padding: 12px; padding-bottom: 80px; }
+    .input-card { padding: 12px; }
+    h1 { font-size: 1.4rem; }
+    button { min-width: 80px; padding: 8px 12px; }
+    .row { flex-direction: column; }
+    table { font-size: 0.7rem; }
+    thead th { padding: 8px 6px; }
+    tbody td { padding: 8px 6px; }
+  }
+
+  /* iOS Safe Area */
+  @supports (padding: max(0px)) {
+    body {
+      padding-left: max(20px, env(safe-area-inset-left));
+      padding-right: max(20px, env(safe-area-inset-right));
+      padding-top: max(20px, env(safe-area-inset-top));
+      padding-bottom: max(100px, env(safe-area-inset-bottom));
+    }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="header-area">
+    <h1>📺 Vérif IPTV</h1>
+    <p class="sub">
+      Collez vos liens Xtream (un par ligne)
+    </p>
+  </div>
+
+  <div class="input-card">
+    <textarea id="input" placeholder="http://serveur1.com:80/get.php?username=xxx&password=yyy"></textarea>
+
+    <div class="filter-box">
+      <label for="filterInput">Filtrer les catégories:</label>
+      <input type="text" id="filterInput" value="BEIN, FR, UK" placeholder="BEIN, FR, UK, SPORT">
+    </div>
+
+    <div class="row">
+      <button id="runBtn">Vérifier</button>
+      <button id="txtBtn" class="secondary" disabled>Exporter</button>
+      <span class="count" id="count"></span>
+    </div>
+
+    <div class="controls-group">
+      <label class="timeout-field">
+        ⏱ Timeout: <input type="number" id="timeoutInput" value="15" min="1" max="60" step="1"> s
+      </label>
+
+      <div class="proxy-field">
+        <label><input type="checkbox" id="useProxyToggle" checked> 🔗 CORS Proxy</label>
+        <select id="proxySelect" class="proxy-select">
+          <option value="cloudflare">Cloudflare</option>
+          <option value="corsproxy">CorsProxy</option>
+          <option value="allorigins">AllOrigins</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="note">
+      Si erreur CORS, cochez <strong>CORS Proxy</strong>.
+    </div>
+  </div>
+
+  <div class="table-container" id="resultsContainer" style="display:none">
+    <table id="results">
+      <thead>
+        <tr>
+          <th>Serveur</th>
+          <th>Statut</th>
+          <th>Expiration</th>
+          <th>Conn</th>
+          <th>Catégories</th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+
+  <div id="empty">Aucun lien valide. Vérifiez le format.</div>
+
+</div>
+
+<script>
+const input = document.getElementById('input');
+const filterInput = document.getElementById('filterInput');
+const runBtn = document.getElementById('runBtn');
+const txtBtn = document.getElementById('txtBtn');
+const resultsContainer = document.getElementById('resultsContainer');
+const tbody = document.getElementById('tbody');
+const emptyEl = document.getElementById('empty');
+const countEl = document.getElementById('count');
+const timeoutInput = document.getElementById('timeoutInput');
+const useProxyToggle = document.getElementById('useProxyToggle');
+const proxySelect = document.getElementById('proxySelect');
+
+let lastResults = [];
+
+// Local Storage
+function saveData() {
+  localStorage.setItem('iptvInput', input.value);
+  localStorage.setItem('iptvFilter', filterInput.value);
+  localStorage.setItem('iptvTimeout', timeoutInput.value);
+  localStorage.setItem('useProxy', useProxyToggle.checked);
+  localStorage.setItem('proxyType', proxySelect.value);
+}
+
+function loadData() {
+  const savedInput = localStorage.getItem('iptvInput');
+  const savedFilter = localStorage.getItem('iptvFilter');
+  const savedTimeout = localStorage.getItem('iptvTimeout');
+  const savedProxy = localStorage.getItem('useProxy');
+  const savedProxyType = localStorage.getItem('proxyType');
+
+  if (savedInput) input.value = savedInput;
+  if (savedFilter) filterInput.value = savedFilter;
+  if (savedTimeout) timeoutInput.value = savedTimeout;
+  if (savedProxy) useProxyToggle.checked = savedProxy === 'true';
+  if (savedProxyType) proxySelect.value = savedProxyType;
+}
+
+loadData();
+
+input.addEventListener('change', saveData);
+filterInput.addEventListener('change', saveData);
+timeoutInput.addEventListener('change', saveData);
+useProxyToggle.addEventListener('change', saveData);
+proxySelect.addEventListener('change', saveData);
+
+function parseLink(line) {
+  line = line.trim();
+  if (!line || line.startsWith('#')) return null;
+  let url;
+  try { url = new URL(line); } catch { return null; }
+  const username = url.searchParams.get('username');
+  const password = url.searchParams.get('password');
+  if (!username || !password) return null;
+  const port = url.port || (url.protocol === 'https:' ? 443 : 80);
+  return {
+    raw: line,
+    scheme: url.protocol.replace(':', ''),
+    host: url.hostname,
+    port,
+    username,
+    password
+  };
+}
+
+function fmtExp(expRaw) {
+  if (!expRaw || expRaw === '0' || expRaw === 'null') return { text: 'Illimité', cls: '' };
+  const ts = parseInt(expRaw, 10);
+  if (isNaN(ts)) return { text: String(expRaw), cls: '' };
+  const dt = new Date(ts * 1000);
+  const now = new Date();
+  const daysLeft = (dt - now) / (1000 * 60 * 60 * 24);
+  const text = dt.toLocaleDateString('fr-FR', { year: 'numeric', month: '2-digit', day: '2-digit' });
+  
+  let cls = '';
+  if (daysLeft < 0) cls = 'past';
+  else if (daysLeft < 7) cls = 'soon';
+  return { text, cls };
+}
+
+function statusBadge(status) {
+  const s = (status || '').toLowerCase();
+  if (s === 'active') return '<span class="badge active">✓ Active</span>';
+  if (s === 'expired') return '<span class="badge expired">✗ Expiré</span>';
+  if (!s) return '<span class="badge other">?</span>';
+  return `<span class="badge other">${status}</span>`;
+}
+
+async function fetchWithProxy(targetUrl, timeoutMs, useProxy, proxyType) {
+  let finalUrl = targetUrl;
+  
+  if (useProxy) {
+    if (proxyType === 'cloudflare') {
+      finalUrl = `https://anis.workers.dev/?url=${encodeURIComponent(targetUrl)}`;
+    } else if (proxyType === 'corsproxy') {
+      finalUrl = `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`;
+    } else if (proxyType === 'allorigins') {
+      finalUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`;
+    }
+  }
+
+  const response = await fetch(finalUrl, { signal: AbortSignal.timeout(timeoutMs) });
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  return await response.json();
+}
+
+function filterCategories(categories, filterKeywords) {
+  if (!categories || categories.length === 0) return [];
+  if (!filterKeywords || filterKeywords.length === 0) return categories;
+
+  return categories.filter(cat => {
+    const catLower = cat.toLowerCase();
+    return filterKeywords.some(kw => catLower.includes(kw.toLowerCase()));
+  });
+}
+
+async function queryAccount(info, timeoutMs, useProxy, proxyType, filterKeywords) {
+  const base = `${info.scheme}://${info.host}:${info.port}/player_api.php?username=${encodeURIComponent(info.username)}&password=${encodeURIComponent(info.password)}`;
+  const res = { server: info.raw, raw: info.raw, liveCategories: [], filteredCategories: [] };
+  
+  try {
+    const data = await fetchWithProxy(base, timeoutMs, useProxy, proxyType);
+    const ui = data.user_info || {};
+    if (!ui || Object.keys(ui).length === 0) throw new Error('Réponse inattendue');
+    res.status = ui.status || 'Inconnu';
+    res.exp = fmtExp(ui.exp_date);
+    res.maxConn = ui.max_connections ?? '-';
+    res.activeConn = ui.active_cons ?? '-';
+    res.ok = true;
+
+    try {
+      const catUrl = `${base}&action=get_live_categories`;
+      const cats = await fetchWithProxy(catUrl, timeoutMs, useProxy, proxyType);
+      
+      if (Array.isArray(cats)) {
+        res.liveCategories = cats
+          .filter(c => c && typeof c.category_name === 'string')
+          .map(c => c.category_name.trim());
+          
+        res.filteredCategories = filterCategories(res.liveCategories, filterKeywords);
+      }
+    } catch {}
+  } catch (e) {
+    res.ok = false;
+    res.error = (e.name === 'TimeoutError') ? `Timeout (${timeoutMs / 1000}s)` : (e.message || 'Erreur CORS/réseau');
+  }
+  return res;
+}
+
+function renderLiveCategories(categories) {
+  if (!categories || categories.length === 0) return '<span style="color:var(--text-muted)">-</span>';
+  
+  const tags = categories.slice(0, 5).map(cat => `<span class="cat-tag">${cat}</span>`).join(' ');
+  const more = categories.length > 5 ? `<span class="cat-tag">+${categories.length - 5}</span>` : '';
+  return `<div class="cat-container">${tags}${more}</div>`;
+}
+
+function renderRow(res, rowEl) {
+  if (res.ok) {
+    rowEl.innerHTML = `
+      <td class="server">${res.server}</td>
+      <td>${statusBadge(res.status)}</td>
+      <td class="exp ${res.exp.cls}">${res.exp.text}</td>
+      <td>${res.activeConn}/${res.maxConn}</td>
+      <td>${renderLiveCategories(res.filteredCategories)}</td>
+    `;
+  } else {
+    rowEl.innerHTML = `
+      <td class="server">${res.server}</td>
+      <td><span class="badge error">✗ Err</span></td>
+      <td colspan="3" class="err-msg">${res.error}</td>
+    `;
+  }
+}
+
+async function processInBatches(parsedArray, rowsArray, batchSize, timeoutMs, useProxy, proxyType, filterKeywords) {
+  const results = [];
+  for (let i = 0; i < parsedArray.length; i += batchSize) {
+    const batchInfo = parsedArray.slice(i, i + batchSize);
+    const batchRows = rowsArray.slice(i, i + batchSize);
+    
+    const batchResults = await Promise.all(
+      batchInfo.map(info => queryAccount(info, timeoutMs, useProxy, proxyType, filterKeywords))
+    );
+    
+    batchResults.forEach((res, idx) => {
+      renderRow(res, batchRows[idx]);
+      results.push(res);
+    });
+
+    if (i + batchSize < parsedArray.length) {
+      await new Promise(resolve => setTimeout(resolve, 300));
+    }
+  }
+  return results;
+}
+
+runBtn.addEventListener('click', async () => {
+  const lines = input.value.split('\n');
+  const parsed = lines.map(parseLink).filter(Boolean);
+
+  resultsContainer.style.display = 'none';
+  emptyEl.style.display = 'none';
+  txtBtn.disabled = true;
+  tbody.innerHTML = '';
+  lastResults = [];
+
+  if (parsed.length === 0) {
+    emptyEl.style.display = 'block';
+    countEl.textContent = '';
+    return;
+  }
+
+  resultsContainer.style.display = 'block';
+  countEl.textContent = `${parsed.length} lien(s)`;
+  runBtn.disabled = true;
+  runBtn.textContent = '⏳ En cours...';
+
+  const rows = parsed.map(info => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td class="server">${info.raw}</td><td><span class="badge loading">⏳</span></td><td colspan="3"></td>`;
+    tbody.appendChild(tr);
+    return tr;
+  });
+
+  const timeoutMs = Math.max(1, parseInt(timeoutInput.value, 10) || 15) * 1000;
+  const useProxy = useProxyToggle.checked;
+  const proxyType = proxySelect.value;
+  
+  const filterKeywords = filterInput.value
+    .split(',')
+    .map(s => s.trim())
+    .filter(Boolean);
+
+  lastResults = await processInBatches(parsed, rows, 5, timeoutMs, useProxy, proxyType, filterKeywords);
+
+  runBtn.disabled = false;
+  runBtn.textContent = 'Vérifier';
+  txtBtn.disabled = false;
+});
+
+txtBtn.addEventListener('click', () => {
+  const blocks = lastResults.map((r, i) => {
+    if (r.ok) {
+      const catsText = (r.filteredCategories && r.filteredCategories.length) 
+        ? r.filteredCategories.join(', ') 
+        : '-';
+
+      return [
+        `#${i + 1}`,
+        `Serveur    : ${r.server}`,
+        `Statut     : ${r.status}`,
+        `Expir.     : ${r.exp.text}`,
+        `Conn       : ${r.activeConn}/${r.maxConn}`,
+        `Catégories : ${catsText}`
+      ].join('\n');
+    }
+    return [
+      `#${i + 1}`,
+      `Serveur : ${r.server}`,
+      `Erreur  : ${r.error}`
+    ].join('\n');
+  });
+  const text = blocks.join('\n' + '-'.repeat(30) + '\n');
+  const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'iptv_results.txt';
+  a.click();
+  URL.revokeObjectURL(url);
+});
+</script>
+</body>
+</html>
