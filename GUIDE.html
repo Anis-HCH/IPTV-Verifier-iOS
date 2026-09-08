@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تعليمات الاستخدام - IPTV Verifier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #090d16;
+    --panel: #111827;
+    --border: #2e3a52;
+    --text-main: #f3f4f6;
+    --text-muted: #9ca3af;
+    --accent-blue: #3b82f6;
+  }
+
+  * { box-sizing: border-box; }
+  
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text-main);
+    font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+    padding: 20px;
+    min-height: 100vh;
+  }
+
+  .container { max-width: 900px; margin: 0 auto; }
+
+  h1, h2 { color: #60a5fa; }
+
+  .section {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+
+  code {
+    background: #0d1321;
+    color: #60a5fa;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: monospace;
+  }
+
+  .step {
+    background: rgba(59, 130, 246, 0.1);
+    border-right: 3px solid var(--accent-blue);
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 6px;
+  }
+
+  button { background: var(--accent-blue); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; }
+  button:hover { background: #2563eb; }
+
+  .back-link { display: inline-block; margin-bottom: 20px; color: var(--accent-blue); text-decoration: none; }
+  .back-link:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="container">
+  <a href="index.html" class="back-link">← العودة إلى التطبيق</a>
+
+  <h1>📖 تعليمات استخدام IPTV Verifier</h1>
+
+  <div class="section">
+    <h2>🚀 البدء السريع</h2>
+    <div class="step">
+      <strong>الخطوة 1:</strong> افتح التطبيق على جهازك
+    </div>
+    <div class="step">
+      <strong>الخطوة 2:</strong> الصق روابط Xtream (واحد في كل سطر)
+    </div>
+    <div class="step">
+      <strong>الخطوة 3:</strong> اختر الفئات المرغوبة
+    </div>
+    <div class="step">
+      <strong>الخطوة 4:</strong> اضغط "Vérifier" وانتظر النتائج
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>📝 صيغة الروابط</h2>
+    <p>يجب أن تكون الروابط بهذا الشكل:</p>
+    <code>http://server.com:port/get.php?username=USER&password=PASS</code>
+    <p><strong>أمثلة:</strong></p>
+    <code>http://example1.com:80/get.php?username=user1&password=pass1</code><br><br>
+    <code>http://example2.com:8080/get.php?username=user2&password=pass2</code>
+  </div>
+
+  <div class="section">
+    <h2>🎯 تصفية الفئات</h2>
+    <p>اكتب أسماء الفئات مفصولة بفاصلة:</p>
+    <code>BEIN, FR, UK, SPORT, ARABIC</code>
+    <p><strong>ملاحظة:</strong> إذا تركت الحقل فارغاً، سيتم عرض جميع الفئات المتاحة</p>
+  </div>
+
+  <div class="section">
+    <h2>⚙️ الإعدادات المتقدمة</h2>
+    <h3>Timeout</h3>
+    <p>الو��ت المسموح به لكل فحص (بالثواني)</p>
+    <p><strong>القيمة الافتراضية:</strong> 15 ثانية</p>
+    <p><strong>النصيحة:</strong> زد القيمة إذا كنت تستخدم اتصال إنترنت ضعيف</p>
+
+    <h3>CORS Proxy</h3>
+    <p>يساعد في حل مشاكل الاتصال والأمان</p>
+    <p><strong>الخيارات:</strong></p>
+    <ul>
+      <li><strong>Cloudflare:</strong> (الأفضل - سريع وموثوق)</li>
+      <li><strong>CorsProxy:</strong> (بديل جيد)</li>
+      <li><strong>AllOrigins:</strong> (خيار آخر)</li>
+    </ul>
+    <p><strong>متى تستخدمه؟</strong> إذا رأيت خطأ "Erreur réseau / CORS"</p>
+  </div>
+
+  <div class="section">
+    <h2>📊 فهم النتائج</h2>
+    <h3>الحالات (Status)</h3>
+    <ul>
+      <li><strong>✓ Active:</strong> الحساب نشط وجاهز للاستخدام</li>
+      <li><strong>✗ Expired:</strong> انتهت صلاحية الحساب</li>
+      <li><strong>? Inconnu:</strong> لا يمكن تحديد الحالة</li>
+    </ul>
+
+    <h3>تاريخ الانتهاء (Expiration)</h3>
+    <ul>
+      <li>التاريخ بصيغة DD/MM/YYYY</li>
+      <li>الألوان:<br>
+        - <span style="color: #34d399;">أخضر:</span> نشط<br>
+        - <span style="color: #fbbf24;">أصفر:</span> ينتهي قريباً (أقل من 7 أيام)<br>
+        - <span style="color: #f87171;">أحمر:</span> منتهي الصلاحية</li>
+    </ul>
+
+    <h3>عدد الاتصالات (Connectés / Max)</h3>
+    <p>عدد الأجهزة المتصلة حالياً / الحد الأقصى المسموح</p>
+
+    <h3>الفئات (Catégories)</h3>
+    <p>قنوات البث المباشر المتاحة (مصفاة حسب الفئات المحددة)</p>
+  </div>
+
+  <div class="section">
+    <h2>💾 حفظ وتصدير النتائج</h2>
+    <p><strong>الحفظ التلقائي:</strong> يتم حفظ إعداداتك تلقائياً محلياً</p>
+    <p><strong>التصدير:</strong> اضغط "Exporter" لحفظ النتائج في ملف TXT</p>
+  </div>
+
+  <div class="section">
+    <h2>🐛 استكشاف الأخطاء</h2>
+    <h3>❌ Erreur réseau / CORS</h3>
+    <p><strong>السبب:</strong> مشكلة في الاتصال بالخادم</p>
+    <p><strong>الحل:</strong></p>
+    <ul>
+      <li>فعّل CORS Proxy من الإعدادات</li>
+      <li>جرّب خادم proxy مختلف</li>
+      <li>تحقق من الرابط والبيانات</li>
+    </ul>
+
+    <h3>❌ Timeout</h3>
+    <p><strong>السبب:</strong> الخادم بطيء جداً أو لا يستجيب</p>
+    <p><strong>الحل:</strong></p>
+    <ul>
+      <li>زد قيمة Timeout</li>
+      <li>استخدم CORS Proxy</li>
+      <li>تحقق من سرعة الإنترنت</li>
+    </ul>
+
+    <h3>❌ الحساب لا يظهر نتائج</h3>
+    <p><strong>السبب:</strong> الحساب قد يكون معطلاً أو الخادم في وضع صيانة</p>
+    <p><strong>الحل:</strong> حاول لاحقاً أو تواصل مع مزود الخدمة</p>
+  </div>
+
+  <div class="section">
+    <h2>📱 على أجهزة iOS</h2>
+    <h3>تثبيت كتطبيق ويب (PWA)</h3>
+    <ol>
+      <li>افتح الرابط في Safari</li>
+      <li>اضغط على زر المشاركة (Share)</li>
+      <li>اختر "Add to Home Screen"</li>
+      <li>سمِّ التطبيق واضغط "Add"</li>
+      <li>سيظهر التطبيق على الشاشة الرئيسية 🎉</li>
+    </ol>
+  </div>
+
+  <div class="section">
+    <h2>🔒 الخصوصية والأمان</h2>
+    <ul>
+      <li>✅ جميع البيانات تُحفظ محلياً فقط</li>
+      <li>✅ لا يتم إرسال بيانات إلى خوادم خارجية</li>
+      <li>✅ لا توجد تسجيلات أو متابعة</li>
+      <li>✅ الـ Proxy اختياري فقط لحل مشاكل CORS</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>❓ أسئلة شائعة</h2>
+    <h3>هل التطبيق آمن؟</h3>
+    <p>نعم، التطبيق آمن تماماً. جميع البيانات تبقى على جهازك ولا يتم نقلها.</p>
+
+    <h3>هل يعمل بدون إنترنت؟</h3>
+    <p>لا، تحتاج إلى اتصال إنترنت للتواصل مع خوادم IPTV والفحص.</p>
+
+    <h3>كم عدد الحسابات التي يمكن فحصها؟</h3>
+    <p>يمكنك فحص عدد غير محدود من الحسابات، لكن بسرعة معقولة لتجنب الحمل الزائد.</p>
+
+    <h3>هل يعمل على الحاسوب؟</h3>
+    <p>نعم، يعمل على أي متصفح حديث (Chrome, Firefox, Safari, Edge) على أي نظام تشغيل.</p>
+
+    <h3>ماذا لو نسيت بيانات حسابك؟</h3>
+    <p>سيتم حفظها تلقائياً في Local Storage. يمكنك مسح البيانات من خلال إعدادات المتصفح.</p>
+  </div>
+
+  <div class="section" style="text-align: center; background: rgba(59, 130, 246, 0.1); border-left: 4px solid var(--accent-blue);">
+    <h3>هل تحتاج مساعدة؟</h3>
+    <p>إذا واجهت مشاكل أو لديك اقتراحات، تواصل معنا:</p>
+    <p>
+      <strong>GitHub:</strong> <a href="https://github.com/Anis-HCH/IPTV-Verifier-iOS" style="color: var(--accent-blue);">Anis-HCH/IPTV-Verifier-iOS</a>
+    </p>
+  </div>
+
+  <br><br>
+</div>
+</body>
+</html>
